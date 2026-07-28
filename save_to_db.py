@@ -11,7 +11,7 @@ import os
 import datetime
 import libsql
  
-from yuyutei_Scraping import scrape_all  # 기존 yuyu-tei 스크래퍼 재사용
+from scrape import scrape_all  # 기존 yuyu-tei 스크래퍼 재사용
  
  
 def upsert_sets(conn, sets: list[dict], scraped_at: str):
