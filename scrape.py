@@ -13,7 +13,10 @@ from bs4 import BeautifulSoup
 
 BASE = "https://yuyu-tei.jp"
 HEADERS = {
-    "User-Agent": "Mozilla/5.0 (hocg-price-tracker; contact: you@example.com)"
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+                  "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+    "Accept-Language": "ja,en-US;q=0.9,en;q=0.8",
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
 }
 REQUEST_DELAY_SEC = 1.5  # 서버 부하 방지용 딜레이
 

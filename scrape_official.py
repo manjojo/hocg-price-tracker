@@ -11,13 +11,19 @@ hOCG 공식 사이트 카드 마스터정보 스크래퍼
 
 import os
 import re
+import sys
 import time
 import requests
 from bs4 import BeautifulSoup
 import libsql
 
 BASE = "https://hololive-official-cardgame.com"
-HEADERS = {"User-Agent": "Mozilla/5.0 (hocg-price-tracker; contact: you@example.com)"}
+HEADERS = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+                  "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+    "Accept-Language": "ja,en-US;q=0.9,en;q=0.8",
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+}
 REQUEST_DELAY_SEC = 1.0
 MAX_CONSECUTIVE_MISSES = 30  # 연속 미존재 id가 이 개수 이상이면 스캔 중단
 
@@ -208,6 +214,7 @@ def scan_new_cards(conn):
     print(f"완료: {found_count}개 저장, 못 찾은 카드 {len(needed)}개")
     if needed:
         print(f"  못 찾음: {sorted(needed)}")
+        sys.exit(1)  # 자동화 환경(GitHub Actions 등)에서 실패로 표시되도록
 
 
 if __name__ == "__main__":
