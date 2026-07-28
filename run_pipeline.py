@@ -11,9 +11,9 @@ import os
 import sys
 import libsql
 
-from yuyutei_Scraping import scrape_all
-from Save_To_DB import save_scrape_result
-from HOCGofficial_Scraping import scan_new_cards
+from scrape import scrape_all
+from save_to_db import save_scrape_result
+from scrape_official import scan_new_cards
 
 
 def get_connection():
