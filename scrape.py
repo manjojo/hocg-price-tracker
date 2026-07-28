@@ -20,13 +20,26 @@ HEADERS = {
 }
 REQUEST_DELAY_SEC = 1.5  # 서버 부하 방지용 딜레이
 
+_session = None
+
+
+def get_session() -> requests.Session:
+    """메인 페이지를 먼저 방문해서 쿠키를 확보한 세션을 재사용."""
+    global _session
+    if _session is None:
+        s = requests.Session()
+        s.headers.update(HEADERS)
+        s.get(BASE + "/", timeout=15)  # 쿠키 확보용 워밍업 요청
+        _session = s
+    return _session
+
 
 def get_all_set_codes() -> list[dict]:
     """top 페이지의 '収録弾' 검색 필터 체크박스(name='vers[]')에서
     전체 세트 목록을 뽑아온다. value 속성이 세트 코드, 연결된 label이 세트 이름.
     (사이드바 아코디언 버튼은 JS 렌더링 후에만 존재해서 순수 HTML엔 없음 -> 사용 불가)
     """
-    res = requests.get(f"{BASE}/top/hocg", headers=HEADERS)
+    res = get_session().get(f"{BASE}/top/hocg")
     res.raise_for_status()
     soup = BeautifulSoup(res.text, "html.parser")
 
@@ -57,7 +70,7 @@ def parse_price(text: str) -> int | None:
 def fetch_set_cards(set_code: str) -> list[dict]:
     """세트 하나의 카드 목록 + 판매가를 파싱."""
     url = f"{BASE}/sell/hocg/s/{set_code}"
-    res = requests.get(url, headers=HEADERS)
+    res = get_session().get(url)
     res.raise_for_status()
     soup = BeautifulSoup(res.text, "html.parser")
 
